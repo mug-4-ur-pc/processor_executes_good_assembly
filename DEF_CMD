@@ -1,0 +1,48 @@
+/*!
+ * @file
+ * @brief This file includes command's definitions.
+ */
+
+
+DEF_CMD (hit, 0, NO_ARGS, {})
+
+DEF_CMD (noc, 1, NO_ARGS, {})
+
+DEF_CMD (jmp, 2, LABEL_ARG, {})
+
+DEF_CMD (je, 3, LABEL_ARG, {})
+
+DEF_CMD (jne, 4, LABEL_ARG, {})
+
+DEF_CMD (jb, 5, LABEL_ARG, {})
+
+DEF_CMD (jnb, 6, LABEL_ARG, {})
+
+DEF_CMD (ja, 7, LABEL_ARG, {})
+
+DEF_CMD (jna, 8, LABEL_ARG, {})
+
+DEF_CMD (call, 9, LABEL_ARG, {})
+
+DEF_CMD (ret, 10, NO_ARGS, {})
+
+DEF_CMD (push, 11, MEMORY_ARG, {})
+
+DEF_CMD (pop, 12, MEMORY_ARG, {})
+
+DEF_CMD (add, 13, NO_ARGS, {})
+
+DEF_CMD (sub, 14, NO_ARGS, {})
+
+DEF_CMD (mul, 15, NO_ARGS, {})
+
+DEF_CMD (div, 16, NO_ARGS, {})
+
+DEF_CMD (sqrt, 17, NO_ARGS, {})
+
+DEF_CMD (in, 20, MEMORY_ARG, {})
+
+DEF_CMD (out, 21, MEMORY_ARG, {})
+
+DEF_CMD (drw, 22, MEMORY_ARG, {})
+
