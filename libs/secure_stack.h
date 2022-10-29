@@ -176,14 +176,14 @@ stack_error_t stack_push (stack_t *stack, const void *pushed_value);
  *
  */
 #define stack_constructor(NAME_, TYPE_) \
-	stack_t NAME_ = stack_constructor_func_(#NAME_, sizeof(TYPE_))
+	NAME_ = stack_constructor_func_(#NAME_, sizeof(TYPE_))
 
 
 /*! This macro creates stack on heap.
  *
  */
 #define stack_create(NAME_, TYPE_) \
-	stack_t *NAME_ = stack_create_func_(#NAME_, sizeof(TYPE_))
+	NAME_ = stack_create_func_(#NAME_, sizeof(TYPE_))
 
 
 /*! This macro returns the size of one element in the stack.

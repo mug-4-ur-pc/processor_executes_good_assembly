@@ -92,7 +92,7 @@ typedef enum memory_arg_t_
 memory_arg_t;
 
 
-#define DEF_CMD(CMD_, NUM_, ...) CMD_##CMD_ = NUM_,
+#define DEF_CMD(CMD_, NUM_, ...) cmd_##CMD_ = NUM_,
 /*!
  * Enum with commands.
  */
@@ -116,8 +116,30 @@ extern const char*       EXEC_EXT;
 extern const char*       ASM_EXT;
 extern const size_t      EXEC_EXT_SIZE;
 extern const size_t      ASM_EXT_SIZE;
-extern const reg_t       REGS_NUMBER;
-#define                  MAX_TOKEN_SIZE 64
+extern const addr_t      VIDEO_WIDTH;
+
+/*!
+ * The number of registers.
+ *
+ * Registers have names from ax to Xx, 
+ * where X has number 'a' + REGS_NUMBER - 1
+ */
+#define REGS_NUMBER (reg_t) 16
+
+/*!
+ * Max size of token.
+ */
+#define MAX_TOKEN_SIZE (size_t) 64
+
+/*!
+ * Size of processor memory.
+ */
+#define MEMORY_SIZE (addr_t) 1024
+
+/*!
+ * Size of video memory.
+ */
+#define VIDEO_MEM_SIZE (addr_t) 256
 
 
 

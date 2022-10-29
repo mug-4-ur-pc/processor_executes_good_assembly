@@ -22,13 +22,15 @@
  */
 typedef enum proc_error_t_
 {
-	NO_PROC_ERR   = 0, /*!< no error.                                        */
-	ALLOC_ERR     = 1, /*!< allocation error.                                */
-	UNKNOWN_CMD   = 2, /*!< unknown command.                                 */
-	WRONG_TOKEN   = 3, /*!< wrong token.                                     */
-	WRONG_ARG     = 4, /*!< wrong argument.                                  */
-	MISSING_ARG   = 5, /*!< argument doesn't exists.                         */
-	UNKNOWN_LABEL = 6  /*!< unknown label.                                   */
+	NO_PROC_ERR    = 0, /*!< no error.                                       */
+	ALLOC_ERR       = 1, /*!< allocation error.                              */
+	UNKNOWN_CMD     = 2, /*!< unknown command.                                */
+	WRONG_TOKEN     = 3, /*!< wrong token.                                    */
+	WRONG_ARG       = 4, /*!< wrong argument.                                 */
+	MISSING_ARG     = 5, /*!< argument doesn't exists.                        */
+	UNKNOWN_LABEL   = 6, /*!< unknown label.                                 */
+	UNKNOWN_INSTR   = 7, /*!< unknown instruction number.                    */
+	WRONG_SIGNATURE = 8  /*!< wring pegas signature.                         */
 }
 proc_error_t;
 

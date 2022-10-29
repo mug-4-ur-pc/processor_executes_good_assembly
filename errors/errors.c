@@ -62,5 +62,13 @@ void print_error (proc_error_t err, const char *str)
 		case UNKNOWN_LABEL:
 			print_err_text("Label was not declared: ", str);
 			break;
+
+		case UNKNOWN_INSTR:
+			print_err_text("Wrong instruction!", str);
+			break;
+
+		case WRONG_SIGNATURE:
+			print_err_text("Wrong pegas signature.", str);
+			break;
 	}
 }

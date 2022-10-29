@@ -41,9 +41,7 @@ const char* ASM_EXT = "asm";
 const size_t ASM_EXT_SIZE = 3;
 
 /*!
- * The number of registers.
- *
- * Registers have names from ax to Xx, 
- * where X has number 'a' + REGS_NUMBER - 1
+ * Width of screen where video buffer will be printed.
  */
-const reg_t REGS_NUMBER = 16;
+const addr_t VIDEO_WIDTH = 16;
+
