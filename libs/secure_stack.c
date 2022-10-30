@@ -41,7 +41,7 @@ static size_t reduce_capacity (size_t capacity, size_t new_size)
 
 	if (new_capacity >= new_size)
 	{
-		if ( new_capacity == 0 )
+		if (new_capacity == 0)
 			return 1;
 		else
 			return new_capacity;
@@ -52,11 +52,11 @@ static size_t reduce_capacity (size_t capacity, size_t new_size)
 
 static size_t increase_capacity (size_t capacity, size_t new_size)
 {
-	if ( new_size == capacity )
+	if (new_size >= capacity)
 	{
 		if (capacity < 256)
 		{
-			if ( (capacity & 1) == 1 )
+			if ((capacity & 1) == 1)
 				capacity <<= 1;
 			capacity |= capacity - 1;
 		}
@@ -212,8 +212,8 @@ stack_t *stack_create_func_ (const char *name, size_t element_size)
 {
 	#if VALIDATION == ON
 
-	if_log (element_size <= 0, ERROR)
-		return NULL;
+	if_log (element_size <= 0, ERROR,
+		return NULL;)
 	
 	#endif
 
@@ -232,11 +232,11 @@ stack_t stack_constructor_func_ (const char *name, size_t element_size)
 
 	#if VALIDATION == OK
 
-	if_log (element_size <= 0, ERROR)
-		element_size = 1;
+	if_log (element_size <= 0, ERROR,
+		element_size = 1;)
 
-	if_log (is_bad_ptr(name), ERROR)
-		strcpy(stack.name, "UNKNOWN");
+	if_log (is_bad_ptr(name), ERROR,
+		strcpy(stack.name, "UNKNOWN");)
 
 	#endif	
 
@@ -303,6 +303,8 @@ stack_error_t stack_deconstructor (stack_t *stack)
 
 stack_error_t stack_check_func_ (stack_t *stack, _CODE_POSITION_T_)
 {
+	(void) fname; (void) func; (void) line;
+
 	bool error = false;
 	char str[200];
 
@@ -392,10 +394,10 @@ stack_error_t stack_top (stack_t *stack, void *result)
 {
 	#if VALIDATION == ON
 
-		if_log (is_bad_ptr(stack), ERROR)
-			return INVALID_PTR;
-		if_log (is_bad_ptr(result), ERROR)
-			return INVALID_PTR;
+		if_log (is_bad_ptr(stack), ERROR,
+			return INVALID_PTR;)
+		if_log (is_bad_ptr(result), ERROR,
+			return INVALID_PTR;)
 
 		stack_error_t error = stack_check(stack);
 		if ( error != STACK_OK )
@@ -417,10 +419,10 @@ stack_error_t stack_pop (stack_t *stack, void *result)
 {
 	#if VALIDATION == ON
 
-		if_log (is_bad_ptr(stack), ERROR)
-			return INVALID_PTR;
-		if_log (is_bad_ptr(result), ERROR)
-			return INVALID_PTR;
+		if_log (is_bad_ptr(stack), ERROR,
+			return INVALID_PTR;)
+		if_log (is_bad_ptr(result), ERROR,
+			return INVALID_PTR;)
 
 	#endif
 
@@ -441,7 +443,7 @@ stack_error_t stack_pop (stack_t *stack, void *result)
 	{
 		free(stack->data);
 		stack->data = POISON_PTR;
-		stack->capacity = new_capacity;
+		stack->capacity = 1;
 	}
 	else if (stack->capacity != new_capacity)
 	{
@@ -455,7 +457,7 @@ stack_error_t stack_pop (stack_t *stack, void *result)
 		void *realloc_check = realloc(stack->data, need_memory);
 		if (!realloc_check)
 			return ALLOCATION_ERROR;
-		realloc_check = stack->data;
+		stack->data = realloc_check;
 
 		stack->capacity = new_capacity;
 	}
@@ -469,10 +471,10 @@ stack_error_t stack_push (stack_t *stack, const void *pushed_value)
 {
 	#if VALIDATION == ON
 	
-		if_log (is_bad_ptr(stack), ERROR)
-			return INVALID_PTR;
-		if_log (is_bad_ptr(pushed_value), WARNING)
-			return INVALID_PTR;
+		if_log (is_bad_ptr(stack), ERROR,
+			return INVALID_PTR;)
+		if_log (is_bad_ptr(pushed_value), WARNING,
+			return INVALID_PTR;)
 
 		stack_error_t error = stack_check(stack);
 

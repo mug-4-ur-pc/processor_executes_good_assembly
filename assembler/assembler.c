@@ -26,8 +26,8 @@
 
 FILE* create_executable (const char* fname)
 {
-	if_log(is_bad_byte_ptr(fname), ERROR)
-		return NULL;
+	if_log(is_bad_byte_ptr(fname), ERROR,
+		return NULL;)
 
 	size_t fname_len = strlen(fname) + 1;
 	char* output_name = calloc(fname_len + EXEC_EXT_SIZE, 1);
@@ -46,24 +46,21 @@ FILE* create_executable (const char* fname)
 
 void write_bytes (assembler_state_t state, const void* data, size_t size)
 {
-	if_log (is_bad_mem(state, sizeof *state), ERROR)
-		return;
+	if_log (is_bad_mem(state, sizeof *state), ERROR,
+		return;)
 
-	if_log (is_bad_mem(data, size), ERROR)
-		return;
+	if_log (is_bad_mem(data, size), ERROR,
+		return;)
 
 	memcpy(state->io.output, data, size);
 	state->ip += size;
 }
 
 
-assembler_state_t asm_state_init (FILE* out, FILE* in)
+assembler_state_t asm_state_init (FILE* in)
 {
-	if_log (is_bad_mem(out, sizeof *out), ERROR)
-		return NULL;
-
-	if_log (is_bad_mem(in, sizeof *in), ERROR)
-		return NULL;
+	if_log (is_bad_mem(in, sizeof *in), ERROR,
+		return NULL;)
 
 	assembler_state_t state = (assembler_state_t) calloc(sizeof *state, 1);
 	if (!state)
@@ -90,8 +87,8 @@ assembler_state_t asm_state_init (FILE* out, FILE* in)
 
 assembler_state_t asm_state_delete (assembler_state_t state)
 {
-	if_log (is_bad_mem(state, sizeof *state), WARNING)
-		return NULL;
+	if_log (is_bad_mem(state, sizeof *state), WARNING,
+		return NULL;)
 
 	free(state->io.input);
 
@@ -107,8 +104,8 @@ assembler_state_t asm_state_delete (assembler_state_t state)
 
 void remove_comments (assembler_state_t state)
 {
-	if_log (is_bad_mem(state, sizeof *state), ERROR)
-		return;
+	if_log (is_bad_mem(state, sizeof *state), ERROR,
+		return;)
 
 	char* ptr = state->io.input;
 
@@ -124,8 +121,8 @@ void remove_comments (assembler_state_t state)
 
 void write_header (assembler_state_t state)
 {
-	if_log (is_bad_mem(state, sizeof *state), ERROR)
-		return;
+	if_log (is_bad_mem(state, sizeof *state), ERROR,
+		return;)
 
 	write_arg(state, &SIGNATURE, sizeof SIGNATURE);
 	write_arg(state, &VERSION, sizeof VERSION);
@@ -134,8 +131,8 @@ void write_header (assembler_state_t state)
 
 bool insert_labels_addresses (assembler_state_t state)
 {
-	if_log (is_bad_mem(state, sizeof *state), ERROR)
-		return false;
+	if_log (is_bad_mem(state, sizeof *state), ERROR,
+		return false;)
 
 	for (size_t i = 0; i < state->labels.size; ++i)
 	{
@@ -158,8 +155,8 @@ bool insert_labels_addresses (assembler_state_t state)
 
 bool increase_labels_capacity (assembler_state_t state)
 {
-	if_log (is_bad_mem(state, sizeof *state), ERROR)
-		return false;
+	if_log (is_bad_mem(state, sizeof *state), ERROR,
+		return false;)
 
 	label_t* new_ptr = (label_t*) realloc(state->labels.table,
 			                              state->labels.capacity * 10
@@ -191,29 +188,29 @@ label_t* find_label (const label_table_t labels, const char* name)
 
 bool create_label (assembler_state_t state, const char* name)
 {
-	if_log (is_bad_mem(state, sizeof *state), ERROR)
-		return false;
+	if_log (is_bad_mem(state, sizeof *state), ERROR,
+		return false;)
 
-	if_log (is_bad_byte_ptr(name), ERROR)
-		return false;
+	if_log (is_bad_byte_ptr(name), ERROR,
+		return false;)
 
 	label_t* label = state->labels.table + state->labels.size;
 	label->use_amount = 0;
 	label->capacity   = 1;
 	label->use        = NULL;
 	label->address    = 0;
-	strncpy(label->name, name, MAX_TOKEN_SIZE);
+	strncpy(label->name, name, MAX_TOKEN_SIZE - 1);
 	return true;
 }
 
 
 bool add_code_place (label_t* label, addr_t addr, proc_error_t* err)
 {
-	if_log (is_bad_mem(label, sizeof *label), ERROR)
-		return false;
+	if_log (is_bad_mem(label, sizeof *label), ERROR,
+		return false;)
 
-	if_log (is_bad_mem(err, sizeof *err), ERROR)
-		return false;
+	if_log (is_bad_mem(err, sizeof *err), ERROR,
+		return false;)
 
 	if (label->use_amount + 1 >= label->capacity)
 	{
@@ -239,11 +236,11 @@ bool add_code_place (label_t* label, addr_t addr, proc_error_t* err)
 bool update_label (assembler_state_t state, const char* name,
                    bool is_label_declaration)
 {
-	if_log (is_bad_mem(state, sizeof *state), ERROR)
-		return false;
+	if_log (is_bad_mem(state, sizeof *state), ERROR,
+		return false;)
 
-	if_log (is_bad_byte_ptr(name), ERROR)
-		return false;
+	if_log (is_bad_byte_ptr(name), ERROR,
+		return false;)
 
 	label_t* label = find_label(state->labels, name);
 	if (!label)
@@ -301,12 +298,13 @@ bool update_label (assembler_state_t state, const char* name,
 
 bool compile_cmd (assembler_state_t state, const char* token)
 {
-	if_log (is_bad_mem(state, sizeof *state), ERROR)
-		return false;
+	if_log (is_bad_mem(state, sizeof *state), ERROR,
+		return false;)
 
-	if_log (is_bad_byte_ptr(token), ERROR)
-		return false;
+	if_log (is_bad_byte_ptr(token), ERROR,
+		return false;)
 
+	if (false);
 	#include "../DEF_CMD" // e.g. else if (strcmp("add", token) == 0)
 	                      //      	return handle_cmd_NO_ARGS(state, 11);
 	else
@@ -322,8 +320,8 @@ bool compile_cmd (assembler_state_t state, const char* token)
 
 bool handle_cmd_NO_ARGS (assembler_state_t state, int instruction)
 {
-	if_log (is_bad_mem(state, sizeof *state), ERROR)
-		return false;
+	if_log (is_bad_mem(state, sizeof *state), ERROR,
+		return false;)
 
 	write_instruction(state, instruction);
 	return true;
@@ -332,8 +330,8 @@ bool handle_cmd_NO_ARGS (assembler_state_t state, int instruction)
 
 bool handle_cmd_LABEL_ARG (assembler_state_t state, int instruction)
 {
-	if_log (is_bad_mem(state, sizeof *state), ERROR)
-		return false;
+	if_log (is_bad_mem(state, sizeof *state), ERROR,
+		return false;)
 
 	int  was_read = 0;
 	char label[MAX_TOKEN_SIZE];
@@ -361,8 +359,8 @@ bool handle_cmd_LABEL_ARG (assembler_state_t state, int instruction)
 
 bool handle_cmd_MEMORY_ARG (assembler_state_t state, int instruction)
 {
-	if_log (is_bad_mem(state, sizeof *state), ERROR)
-		return false;
+	if_log (is_bad_mem(state, sizeof *state), ERROR,
+		return false;)
 
 	char arg[MAX_TOKEN_SIZE];
 	int was_read = 0;
@@ -404,8 +402,8 @@ bool handle_cmd_MEMORY_ARG (assembler_state_t state, int instruction)
 
 bool compile_next (assembler_state_t state)
 {
-	if_log (is_bad_mem(state, sizeof *state), ERROR)
-		return false;
+	if_log (is_bad_mem(state, sizeof *state), ERROR,
+		return false;)
 
 	char token[MAX_TOKEN_SIZE];
 	char tmp[10];
@@ -444,13 +442,13 @@ bool compile_next (assembler_state_t state)
 
 proc_error_t compile (FILE* output, FILE* input)
 {
-	if_log (is_bad_mem(output, sizeof *output), ERROR)
-		return WRONG_ARG;
+	if_log (is_bad_mem(output, sizeof *output), ERROR,
+		return WRONG_ARG;)
 
-	if_log (is_bad_mem(input, sizeof *input), ERROR)
-		return WRONG_ARG;
+	if_log (is_bad_mem(input, sizeof *input), ERROR,
+		return WRONG_ARG;)
 
-	assembler_state_t state = asm_state_init(output, input);
+	assembler_state_t state = asm_state_init(input);
 
 	remove_comments(state);
 
@@ -466,7 +464,7 @@ proc_error_t compile (FILE* output, FILE* input)
 		fwrite(state->io.output, sizeof *state->io.output, state->ip, output);
 
 	asm_state_delete(state);
-	return state->error;
+	return err;
 }
 
 
@@ -503,7 +501,7 @@ bool is_reg (char* arg, reg_t* reg)
 	char tmp;
 	if (sscanf(arg, "%cx%c", &reg_letter, &tmp) == 1)
 	{
-		if ('a' <= reg_letter && reg_letter < 'a' + WRONG_TOKEN)
+		if ('a' <= reg_letter && reg_letter < 'a' + REGS_NUMBER)
 		{
 			*reg = reg_letter - 'a';
 			return true;

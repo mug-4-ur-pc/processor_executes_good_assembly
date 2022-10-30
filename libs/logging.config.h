@@ -10,7 +10,7 @@
 /*!
 * Enable or disable logging.
 */
-#define LOGGING ON
+#define LOGGING OFF
 
 /*!
  * Print stack trace on every log object.

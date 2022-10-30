@@ -34,6 +34,5 @@ int main (int argc, char* argv[])
 	int success = (run(input) == NO_PROC_ERR) ? 0 : 1;
 
 	fclose(input);
-
 	return success;
 }

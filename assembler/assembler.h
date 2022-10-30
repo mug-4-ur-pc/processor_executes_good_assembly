@@ -106,7 +106,6 @@ void write_bytes
  */
 assembler_state_t asm_state_init
 (
-	 FILE* out, /*!< [in] output of compilation.                             */
 	FILE* in    /*!< [in] input of compilation.                              */
 );
 

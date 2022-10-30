@@ -4,7 +4,10 @@
  */
 
 
-DEF_CMD (hit, 0, NO_ARGS, {})
+DEF_CMD (hit, 0, NO_ARGS,
+{
+	return 0;
+})
 
 DEF_CMD (noc, 1, NO_ARGS, {})
 
@@ -112,8 +115,8 @@ DEF_CMD (out, 21, NO_ARGS,
 	printf("%d\n", TOP);
 })
 
-DEF_CMD (drw, 22, MEMORY_ARG,
+DEF_CMD (drw, 22, NO_ARGS,
 {
-	redraw(proc);
+	redraw(proc->mem);
 })
 

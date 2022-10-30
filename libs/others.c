@@ -34,8 +34,8 @@ inline bool is_bad_byte_ptr (const void* ptr)
 
 bool is_bad_mem (const void* ptr, size_t size)
 {
-	if_log (size == 0, WARNING)
-		return true;
+	if_log (size == 0, WARNING,
+		return true;)
 
 	for (size_t i = 0; i < size; ++i)
 	{

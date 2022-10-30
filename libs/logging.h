@@ -232,11 +232,12 @@ void write_log_at (const char *msg, const char *data,
  *
  *  @param[in] ASSERTION_    - boolean expression to be checked for truth.
  *  @param[in] DANGER_STATUS - warning status of log that may be written.
+ *  @param[in] code that will be runned if ASSERTION_ is true.
  */
-#define if_log(ASSERTION_, DANGER_STATUS_) if (\
+#define if_log(ASSERTION_, DANGER_STATUS_, CODE_) if (\
 	(ASSERTION_) && (\
 	write_log_at("Assertion failed:", #ASSERTION_, DANGER_STATUS_,\
-			0, _CURRENT_CODE_POSITION_), true) )
+			0, _CURRENT_CODE_POSITION_), true) ) CODE_
 
 
 /*! This macro writes log to the previously assigned places
@@ -280,10 +281,10 @@ void write_log_at (const char *msg, const char *data,
 #define add_sublog(msg, data, danger, deep_lvl)
 
 
-#define add_table_log(msg, arr, n, print_func, danger, deep_lvl)
+#define add_table_log(msg, arr, size, element_size, print_func, danger, deep_lvl)
 
 
-#define if_log(ASSERTION_, DANGER_STATUS_) if (ASSERTION_)
+#define if_log(ASSERTION_, DANGER_STATUS_, CODE_)
 
 
 #define write_log(MESSAGE_, DATA_, DANGER_STATUS_, DEEP_LVL_) (void) 0

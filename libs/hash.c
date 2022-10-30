@@ -24,8 +24,8 @@ uint64_t pearson_hash64 (const void* data, size_t len)
 	if (!len)
 		return 0;
 
-	if_log (is_bad_mem(data, len), ERROR)
-		return 0;
+	if_log (is_bad_mem(data, len), ERROR,
+		return 0;)
 
 	uint64_t hash64 = len;
 	const unsigned char* uchar_data = (const unsigned char*) data;

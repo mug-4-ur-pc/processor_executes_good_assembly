@@ -150,7 +150,7 @@ int get_mem_arg
  */
 void redraw
 (
-	const processor_value_t* mem; /*!< [in] video memory.                    */
+	const processor_value_t* mem /*!< [in] video memory.                     */
 );
 
 
