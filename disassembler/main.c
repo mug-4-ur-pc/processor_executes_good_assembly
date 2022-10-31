@@ -1,10 +1,11 @@
 /*!
- * @file Main file for soft processor.
+ * @file Main file for disassembler.
  */
 
 
 
-#include "processor.h"
+#include "disassembler.h"
+#include "../libs/text_edit.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -30,9 +31,17 @@ int main (int argc, char* argv[])
 		fputs("File cannot be opened.\n", stderr);
 		return 1;
 	}
+	
+	FILE* output = create_asm_file(argv[1]);
+	if (!output)
+	{
+		fputs("Output file cannot be created.\n", stderr);
+		return 1;
+	}
 
-	int success = (run(input) == NO_PROC_ERR) ? 0 : 1;
+	int success = (decompile(output, input) == NO_PROC_ERR) ? 0 : 1;
 
 	fclose(input);
+	fclose(output);
 	return success;
 }

@@ -1,6 +1,6 @@
 /*!
  * @file
- * @brief Function's implementation for assembler file compiler.
+ * @brief Function's implementation for bin interpreteer.
  */
 
 

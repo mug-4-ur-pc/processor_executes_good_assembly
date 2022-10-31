@@ -1,6 +1,6 @@
 /*!
  * @file
- * @brief Header for processor file compiler.
+ * @brief Header for bin interpreter.
  */
 
 #ifndef PROCESSOR_H_
