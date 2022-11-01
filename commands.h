@@ -44,7 +44,7 @@ typedef unsigned long long addr_t;
 /*!
  * Register type
  */
-typedef uint_8 reg_t;
+typedef uint8_t reg_t;
 
 /*!
  * List of available register names.
