@@ -353,7 +353,7 @@ int update_label (disasm_state_t disasm, addr_t use_place)
 }
 
 
-size_t find_label (disasm_state_t disasm, addr_t addr, bool* was_find)
+size_t find_label (const disasm_state_t disasm, addr_t addr, bool* was_find)
 {
 	if_log (is_bad_mem(disasm, sizeof *disasm), ERROR,
 		return 0;)

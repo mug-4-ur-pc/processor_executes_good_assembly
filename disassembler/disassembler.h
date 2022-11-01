@@ -183,9 +183,11 @@ int update_label
  */
 size_t find_label 
 (
-	disasm_state_t disasm,  /*!< [in,out] disassembler state.                */
-	addr_t         addr,    /*!< [out]    address which are needed to find.  */
-	bool*          was_find /*!< [out]    is array contains needed label.    */
+	const disasm_state_t disasm,  /*!< [in,out] disassembler state.          */
+	addr_t               addr,    /*!< [out]    address which are 
+	                                            needed to find.              */
+	bool*                was_find /*!< [out]    is array 
+	                                            contains needed label.       */
 );
 
 /*!

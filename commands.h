@@ -13,6 +13,7 @@
 
 
 #include <limits.h>
+#include <inttypes.h>
 #include <stddef.h>
 
 
@@ -23,12 +24,12 @@
 /*!
  * Assembly file signature type.
  */
-typedef unsigned long long signature_t;
+typedef uint64_t signature_t;
 
 /*!
  * Processor version type.
  */
-typedef unsigned int version_t;
+typedef uint32_t version_t;
 
 /*!
  * Type of values which are processed by processor.
@@ -43,7 +44,7 @@ typedef unsigned long long addr_t;
 /*!
  * Register type
  */
-typedef unsigned char reg_t;
+typedef uint_8 reg_t;
 
 /*!
  * List of available register names.
