@@ -1,0 +1,230 @@
+$	COMMANDS LIST (<arg> stands for whatever argument you can use):
+	
+	0.
+
+		SYNTAXIS: hit
+
+		COMMAND CODE: 0
+
+		ARGUMENT TYPE: NO_ARGS
+
+		DESCRIPTION: stop the processor
+
+
+	1.
+
+		SYNTAXIS: noc
+
+		COMMAND CODE: 1
+
+		ARGUMENT TYPE: NO_ARGS
+
+		DESCRIPTION: empty command
+
+
+	2.
+
+		SYNTAXIS: jmp <arg>
+
+		COMMAND CODE: 2
+
+		ARGUMENT TYPE: LABEL_ARG
+
+		DESCRIPTION: jump to <arg> label
+
+
+	3.
+
+		SYNTAXIS: je <arg>
+
+		COMMAND CODE: 3
+
+		ARGUMENT TYPE: LABEL_ARG
+
+		DESCRIPTION: push two values and jump to <arg> if first value is equal to second
+
+
+	4.
+
+		SYNTAXIS: jne <arg>
+
+		COMMAND CODE: 4
+
+		ARGUMENT TYPE: LABEL_ARG
+
+		DESCRIPTION: push two values and jump to <arg> if first value is not equal to second
+
+
+	5.
+
+		SYNTAXIS: jb <arg>
+
+		COMMAND CODE: 5
+
+		ARGUMENT TYPE: LABEL_ARG
+
+		DESCRIPTION: push two values and jump to <arg> if first value is below second
+
+
+	6.
+
+		SYNTAXIS: jnb <arg>
+
+		COMMAND CODE: 6
+
+		ARGUMENT TYPE: LABEL_ARG
+
+		DESCRIPTION: push two values and jump to <arg> if first value is not below second
+
+
+	7.
+
+		SYNTAXIS: ja <arg>
+
+		COMMAND CODE: 7
+
+		ARGUMENT TYPE: LABEL_ARG
+
+		DESCRIPTION: push two values and jump to <arg> if first value is above second
+
+
+	8.
+
+		SYNTAXIS: jba <arg>
+
+		COMMAND CODE: 8
+
+		ARGUMENT TYPE: LABEL_ARG
+
+		DESCRIPTION: push two values and jump to <arg> if first value is not above second
+
+
+
+	9.
+
+		SYNTAXIS: call <arg>
+
+		COMMAND CODE: 9
+
+		ARGUMENT TYPE: LABEL_ARG
+
+		DESCRIPTION: push current instruction pointer into ip stack and jmp to <arg>
+
+	10.
+
+		SYNTAXIS: ret
+
+		COMMAND CODE: 10
+
+		ARGUMENT TYPE: NO_ARGS
+
+		DESCRIPTION: pop instruction pointer from ip stack and jump on it
+
+	11.
+
+		SYNTAXIS: push <arg>
+
+		COMMAND CODE: 11
+
+		ARGUMENT TYPE: MENORY_ARG
+
+		DESCRIPTION: put <arg> value into stack
+
+	12.
+
+		SYNTAXIS: pop <arg>
+
+		COMMAND CODE: 12
+
+		ARGUMENT TYPE: MENORY_ARG
+
+		DESCRIPTION: pop value from stack to <arg> value
+
+
+	13.
+
+		SYNTAXIS: add
+
+		COMMAND CODE: 13
+
+		ARGUMENT TYPE: NO_ARGS
+
+		DESCRIPTION: pop two values from stack and push their sum
+
+	14.
+
+		SYNTAXIS: sub
+
+		COMMAND CODE: 14
+
+		ARGUMENT TYPE: NO_ARGS
+
+		DESCRIPTION: pop two values from stack and push theis difference
+
+	15.
+
+		SYNTAXIS: mul
+
+		COMMAND CODE: 15
+
+		ARGUMENT TYPE: NO_ARGS
+
+		DESCRIPTION: pop two values from stack and push their product
+
+	16.
+
+		SYNTAXIS: div
+
+		COMMAND CODE: 16
+
+		ARGUMENT TYPE: NO_ARGS
+
+		DESCRIPTION: pop two values from stack and push quotient of dividing the first number by the second
+
+	17.
+
+		SYNTAXIS: sqrt
+
+		COMMAND CODE: 17
+
+		ARGUMENT TYPE: NO_ARGS
+
+		DESCRIPTION: pop value from stack and push integer part of the square root
+
+	20.
+
+		SYNTAXIS: in <arg>
+
+		COMMAND CODE: 20
+
+		ARGUMENT TYPE: MENORY_ARG
+
+		DESCRIPTION: get argument from stdin and put it to <arg> value
+
+	21.
+
+		SYNTAXIS: out
+
+		COMMAND CODE: 21
+
+		ARGUMENT TYPE: NO_ARGS
+
+		DESCRIPTION: print value from the top of the stack
+	
+	22.
+
+		SYNTAXIS: drw
+
+		COMMAND CODE: 22
+
+		ARGUMENT TYPE: NO_ARGS
+
+		DESCRIPTION: draw picture using video memory
+
+$	ARGUMENT TYPES:
+
+	1. NO_ARGS    - instruction has no args
+
+	2. LABEL_ARG  - the argument is label
+
+	3. MEMORY_ARG - the argument affects memory (RAM, stack, regs)
