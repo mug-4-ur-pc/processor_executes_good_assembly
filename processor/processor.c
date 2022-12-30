@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include <math.h>
 
 
@@ -68,6 +69,95 @@ static processor_value_t POP_ADDR_FUNC_ (proc_state_t proc)
 /*========================= Functions implementation ========================*/
 
 
+#ifdef DEBUGGER
+
+void print_last_elements_from_stack (proc_state_t proc, size_t amount)
+{
+	if (stack_size(&proc->stack) < amount)
+		amount = stack_size(&proc->stack);
+
+	processor_value_t elems[amount];
+	for (size_t i = 0; i < amount; ++i)
+		stack_pop(&proc->stack, elems + amount - i - 1);
+
+	for (size_t i = 0; i < amount; ++i)
+	{
+		printf("%d ", elems[i]);
+		stack_push(&proc->stack, elems + i);
+	}
+	putchar('\n');
+}
+
+
+void print_reg_value (proc_state_t proc, char reg_letter)
+{
+	size_t reg = reg_letter - 'a';
+	if (reg < REGS_NUMBER)
+		printf("%d\n", proc->regs[reg]);
+	else
+		puts("Wrong register number");
+}
+
+
+void print_mem (proc_state_t proc, addr_t from, addr_t to)
+{
+	for (addr_t i = from; i < to && i < MEMORY_SIZE; ++i)
+		printf("%d ", proc->mem[i]);
+	putchar('\n');
+}
+
+
+bool debugger_process (proc_state_t proc)
+{
+	size_t print_amount = 0;
+	char   reg_letter   = '\0';
+	addr_t from = 0, to = 0;
+	char   cmd = '\0';
+
+	while (true)
+	{
+		if ((cmd = getchar()) != EOF)
+		{
+			if (isalpha(cmd))
+				break;
+		}
+		else
+			return false;
+	}
+
+	cmd = toupper(cmd);
+	switch (cmd)
+	{
+		case 'S':
+			scanf("%zd", &print_amount);
+			print_last_elements_from_stack(proc, print_amount);
+			return true;
+
+		case 'R':
+			scanf(" %cx", &reg_letter);
+			print_reg_value(proc, reg_letter);
+			return true;
+
+		case 'M':
+			scanf("%llu %llu", &from, &to);
+			print_mem(proc, from, to);
+			return true;
+
+		case 'N':
+			return proc_process(proc);
+
+		case 'E':
+			return false;
+
+		default:
+			printf("Unknown debugger's command: %c.", cmd);
+			return true;
+	}
+}
+
+#endif // defined DEBUGGER
+	   //
+	   //
 proc_error_t run (FILE* input)
 {
 	if_log (is_bad_mem(input, sizeof *input), ERROR,
@@ -86,8 +176,13 @@ proc_error_t run (FILE* input)
 		return WRONG_SIGNATURE;
 	}
 
-	while (proc_process(proc))
-		continue;
+	#ifdef DEBUGGER
+		while (debugger_process(proc))
+			continue;
+	#else
+		while (proc_process(proc))
+			continue;
+	#endif // defined DEBUGGER
 
 	proc_error_t err = proc->error;
 	proc_delete(proc);

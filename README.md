@@ -14,7 +14,7 @@ This is implementation of soft processor.
 
 ## Compilation
 
-To compile it run `make asm`, `make proc` or `make disasm`.
+To compile it run `make asm`, `make proc`, `make debugger` or `make disasm`.
 
 
 
@@ -30,7 +30,7 @@ To restore source code from compiled file run `pegas_disasm <filename>`.
 
 ## Example
 
-You can see one example **[here](example/ "Example")**.
+You can see some code examples **[here](examples/ "Example")**.
 
 
 

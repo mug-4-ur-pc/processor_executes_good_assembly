@@ -51,6 +51,47 @@ typedef struct proc_state_t_
 
 /*========================== Functions declaration ==========================*/
 
+#ifdef DEBUGGER
+/*!
+ * This functions prints last n elements from processor's stack.
+ */
+void print_last_elements_from_stack
+(
+	proc_state_t proc,  /*!< [in] processor's state structure.               */
+	size_t       amount /*!< [in] amount of printed elements.                */
+);
+
+/*!
+ * This function prints value which particular register contains.
+ */
+void print_reg_value
+(
+	proc_state_t proc,      /*!< [in] processor's state structure.           */
+	char         reg_letter /*!< [in] letter which specifies register's name.*/
+);
+
+/*!
+ * This function prints values from processor's memory.
+ */
+void print_mem
+(
+	proc_state_t proc, /*!< [in] processor's state structure.                */
+	addr_t       from, /*!< [in] beginning of printing values.               */
+	addr_t       to    /*!< [in] end of printing values.                     */
+);
+
+/*!
+ * Process debugger command.
+ *
+ * @return true if processing ended else false.
+ */
+bool debugger_process
+(
+	proc_state_t proc /*!< [in] processor's state structure.                 */
+);
+
+#endif // defined DEBUGGER
+
 /*!
  * Process instructions frmm input file.
  *
@@ -60,6 +101,7 @@ proc_error_t run
 (
 	FILE* input /*!< [in] input compiled file.                               */
 );
+
 /*!
  * Initilalize processor state.
  *
