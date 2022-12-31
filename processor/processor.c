@@ -248,6 +248,16 @@ proc_state_t proc_delete (proc_state_t proc)
 	if (proc->instructions)
 		free(proc->instructions);
 
+	if (proc->window)
+	{
+		SDL_Event event;
+		while (!(SDL_PollEvent(&event) && event.type == SDL_QUIT))
+			continue;
+
+		SDL_DestroyRenderer(proc->renderer);
+		SDL_DestroyWindow(proc->window);
+		SDL_Quit();
+	}
 	free(proc);
 	return NULL;
 }
@@ -367,20 +377,25 @@ int get_mem_arg (proc_state_t proc, char instr,
 		
 		if (instr & ADDR_ARG)
 		{
-			*val_ptr = proc->mem + *val;
+			addr_t offset = 0;
+			memcpy(&offset, proc->instructions + proc->ip, sizeof offset);
+			proc->ip += sizeof offset;
+			*val_ptr = proc->mem + *val + offset;
 			*val     = **val_ptr;
 		}
 	}
 	else if (instr & ADDR_ARG)
 	{
-		processor_value_t addr;
+		processor_value_t addr   = 0;
+		addr_t            offset = 0;
 		if (proc->ip + sizeof addr > proc->instr_size)
 			return 0;
 
 		memcpy(&addr, proc->instructions + proc->ip, sizeof addr);
-		*val_ptr  = proc->mem + addr;
+		memcpy(&offset, proc->instructions + proc->ip, sizeof offset);
+		*val_ptr  = proc->mem + addr + offset;
 		*val      = **val_ptr;
-		proc->ip += sizeof addr;
+		proc->ip += sizeof addr + sizeof offset;
 	}
 	else
 	{
@@ -396,13 +411,27 @@ int get_mem_arg (proc_state_t proc, char instr,
 }
 
 
-void redraw (const processor_value_t* mem)
+void redraw (proc_state_t proc)
 {
-	for (addr_t i = 0; i < VIDEO_MEM_SIZE; ++i)
+	if (!proc->window)
 	{
-		putchar((mem[i]) ? '#' : ' ');
-		putchar(' ');
-		if (i % VIDEO_WIDTH == VIDEO_WIDTH - 1)
-			putchar('\n');
+		SDL_Init(SDL_INIT_EVERYTHING);
+		SDL_CreateWindowAndRenderer(VIDEO_WIDTH, VIDEO_HEIGHT, 0,
+		                            &proc->window, &proc->renderer);
 	}
+
+	SDL_SetRenderDrawColor(proc->renderer, 0, 0, 0, 255);
+	SDL_RenderClear(proc->renderer);
+	SDL_SetRenderDrawColor(proc->renderer, 255, 255, 255, 255);
+
+	for (addr_t i = 0; i < VIDEO_HEIGHT; ++i)
+	{
+		for (addr_t j = 0; j < VIDEO_WIDTH; ++j)
+		{
+			if (proc->mem[i * VIDEO_WIDTH + j])
+				SDL_RenderDrawPoint(proc->renderer, i, j);
+		}
+	}
+
+	SDL_RenderPresent(proc->renderer);
 }

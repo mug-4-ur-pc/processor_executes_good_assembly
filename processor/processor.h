@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <SDL2/SDL.h>
 
 
 
@@ -43,6 +44,8 @@ typedef struct proc_state_t_
 	                                          of points of return.           */
 	proc_error_t      error;             /*!< error code that occures
 	                                          during the execution.          */
+	SDL_Window*       window;            /*!< window.                        */
+	SDL_Renderer*     renderer;          /*!< renderer of window.            */
 }
 *proc_state_t;
 
@@ -192,7 +195,7 @@ int get_mem_arg
  */
 void redraw
 (
-	const processor_value_t* mem /*!< [in] video memory.                     */
+	proc_state_t proc /*!< [in] processor state.                             */
 );
 
 

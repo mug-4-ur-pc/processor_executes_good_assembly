@@ -237,6 +237,18 @@ int print_label_arg (disasm_state_t disasm)
 }
 
 
+bool get_value (disasm_state_t disasm, void* buff, size_t size)
+{
+		if (disasm->ip + size > disasm->instr_size)
+			return false;
+
+		memcpy(buff, disasm->instructions + disasm->ip, size);
+		disasm->ip += size;
+		return true;
+	
+}
+
+
 int print_mem_arg (disasm_state_t disasm, char instr)
 {
 	if_log (is_bad_mem(disasm, sizeof *disasm), ERROR,
@@ -244,40 +256,37 @@ int print_mem_arg (disasm_state_t disasm, char instr)
 
 	if (instr & REG_ARG)
 	{
-		reg_t reg;
-		if (disasm->ip + sizeof reg > disasm->instr_size)
+		reg_t reg = REG_ax;
+		if (get_value(disasm, &reg, sizeof reg))
 			return 0;
 
-		memcpy(&reg, disasm->instructions + disasm->ip, sizeof reg);
-		disasm->ip += sizeof reg;
-		
 		fputc('\t', disasm->output);
 		if (instr & ADDR_ARG)
-			fputc('[', disasm->output);
-		fprintf(disasm->output, "%cx", 'a' + reg);
-		if (instr & ADDR_ARG)
-			fputc(']', disasm->output);
-		fputc('\n', disasm->output);
+		{
+			addr_t offset = 0;
+			if (get_value(disasm, &offset, sizeof offset))
+				return 0;
+
+			if (offset)
+				fprintf(disasm->output, "%llu", offset);
+			fprintf(disasm->output, "[%cx]\n", 'a' + reg);
+		}
+
+		fprintf(disasm->output, "%cx\n", 'a' + reg);
 	}
 	else if (instr & ADDR_ARG)
 	{
 		processor_value_t addr;
-		if (disasm->ip + sizeof addr > disasm->instr_size)
+		if (get_value(disasm, &addr, sizeof addr))
 			return 0;
-
-		memcpy(&addr, disasm->instructions + disasm->ip, sizeof addr);
-		disasm->ip += sizeof addr;
 
 		fprintf(disasm->output, "\t[%d]\n", addr);
 	}
 	else
 	{
 		processor_value_t val = 0;
-		if (disasm->ip + sizeof val > disasm->instr_size)
+		if (get_value(disasm, &val, sizeof val))
 			return 0;
-
-		memcpy(&val, disasm->instructions + disasm->ip, sizeof val);
-		disasm->ip += sizeof val;
 
 		fprintf(disasm->output, "\t%d\n", val);
 	}

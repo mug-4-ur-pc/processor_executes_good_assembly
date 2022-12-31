@@ -28,6 +28,8 @@
 	pop		ex
 	push	dx
 	sqrt
+	pop		dx
+	push	dx
 	push	0
 	je		DISCR_IS_ZERO
 

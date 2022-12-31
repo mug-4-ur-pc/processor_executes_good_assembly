@@ -300,9 +300,10 @@ void write_arg
  */
 bool is_addr
 (
-	char* arg,           /*!< [in]  input argument.                          */
-	char* extracted_addr /*!< [out] string in which extracted 
-	                                address variable will be written.        */
+	char*   arg,            /*!< [in]  input argument.                       */
+	char*   extracted_addr, /*!< [out] string in which extracted 
+	                                   address variable will be written.     */
+	addr_t* offset          /*!< [out\ offset of address.                    */
 );
 
 /*!

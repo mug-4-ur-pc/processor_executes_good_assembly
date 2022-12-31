@@ -117,6 +117,6 @@ DEF_CMD (out, 21, NO_ARGS,
 
 DEF_CMD (drw, 22, NO_ARGS,
 {
-	redraw(proc->mem);
+	redraw(proc);
 })
 

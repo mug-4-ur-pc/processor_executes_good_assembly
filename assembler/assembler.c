@@ -362,7 +362,7 @@ bool handle_cmd_MEMORY_ARG (assembler_state_t state, int instruction)
 	if_log (is_bad_mem(state, sizeof *state), ERROR,
 		return false;)
 
-	char arg[MAX_TOKEN_SIZE];
+	char arg[MAX_TOKEN_SIZE] = {};
 	int was_read = 0;
 	if (sscanf(state->io.input + state->pos, "%s%n", arg, &was_read) != 1)
 	{
@@ -371,11 +371,12 @@ bool handle_cmd_MEMORY_ARG (assembler_state_t state, int instruction)
 		return false;
 	}
 
-	state->pos            += was_read;
-	reg_t             reg  = REG_ax;
-	processor_value_t val  = 0;
+	state->pos              += was_read;
+	reg_t             reg    = REG_ax;
+	processor_value_t val    = 0;
+	addr_t            offset = 0;
 	char              extracted_addr[MAX_TOKEN_SIZE];
-	if (is_addr(arg, extracted_addr))
+	if (is_addr(arg, extracted_addr, &offset))
 		instruction |= ADDR_ARG;
 	
 	if (is_reg(extracted_addr, &reg))
@@ -383,13 +384,11 @@ bool handle_cmd_MEMORY_ARG (assembler_state_t state, int instruction)
 		instruction |= REG_ARG;
 		write_instruction(state, instruction);
 		write_arg(state, &reg, sizeof reg);
-		return true;
 	}
 	else if (is_const(extracted_addr, &val))
 	{
 		write_instruction(state, instruction);
 		write_arg(state, &val, sizeof val);
-		return true;
 	}
 	else
 	{
@@ -397,6 +396,11 @@ bool handle_cmd_MEMORY_ARG (assembler_state_t state, int instruction)
 		state->error = WRONG_ARG;
 		return false;
 	}
+
+	if (instruction & ADDR_ARG)
+		write_arg(state, &offset, sizeof offset);
+
+	return true;
 }
 
 
@@ -482,14 +486,20 @@ void write_arg (assembler_state_t state, const void* arg, size_t size)
 }
 
 
-bool is_addr (char* arg, char* extracted_val)
+bool is_addr (char* arg, char* extracted_val, addr_t* offset)
 {
 	char tmp[10];
 	
 	// 0x5B == '[' && 0x5D == ']'
 	if (sscanf(arg, "\x5B%[^\x5D]%1[\x5D]", extracted_val, tmp) == 2)
+	{
+		*offset = 0;
 		return true;
-	
+	}
+
+	if (sscanf(arg, "%llu\x5B%[^\x5D]%1[\x5D]", offset, extracted_val, tmp) == 3)
+		return true;
+
 	strcpy(extracted_val, arg);
 	return false;
 }

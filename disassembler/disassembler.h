@@ -154,6 +154,17 @@ int get_labels
 );
 
 /*!
+ * This function gets value from binary disassembly's input.
+ */
+bool get_value
+(
+	disasm_state_t disasm, /*!< [in]  disassembler state.                    */
+	void*          buff,   /*!< [out] buffer where read value will be
+	                                  written.                               */
+	size_t         size    /*!< [in]  size of read value.                    */
+);
+
+/*!
  * Get size of instruction's argument.
  *
  * @return size of argument.

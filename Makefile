@@ -16,12 +16,12 @@ pegas_disasm: constants.c disassembler/* errors/* libs/*
 .PHONY: proc
 proc: pegas_exec
 pegas_exec: constants.c processor/* errors/* libs/*
-	$(CC) $(CFLAGS) constants.c libs/* errors/errors.c processor/* -o pegas_exec
+	$(CC) $(CFLAGS) -lSDL2 constants.c libs/* errors/errors.c processor/* -o pegas_exec
 
 .PHONY: debugger
 debugger: pegas_debugger
 pegas_debugger: constants.c processor/* errors/* libs/*
-	$(CC) $(CFLAGS) -DDEBUGGER constants.c libs/* errors/errors.c processor/* -o pegas_debugger
+	$(CC) $(CFLAGS) -lSDL2 -DDEBUGGER constants.c libs/* errors/errors.c processor/* -o pegas_debugger
 
 .PHONY: clean
 clean:

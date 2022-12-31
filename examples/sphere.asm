@@ -14,16 +14,16 @@ DRAW_SPHERE:
 	add
 	pop		ax
 	push	ax
-	push	256
+	push	65536
 	ja		.DRAW_LOOP
 	ret
 
 ON_SPHERE:
-	push	16
+	push	256
 	push	ax
 	div
 
-	push	8
+	push	128
 	sub
 	pop		bx
 
@@ -31,15 +31,15 @@ ON_SPHERE:
 	push	bx
 	mul
 
-	push	16
+	push	256
 	push	ax
 	div
-	push	16
+	push	256
 	mul
 	push	ax
 	sub
 
-	push	8
+	push	128
 	sub
 	pop		bx
 
@@ -49,7 +49,7 @@ ON_SPHERE:
 
 	add
 
-	push	49
+	push	16384
 	jb		.ON_SPHERE_FALSE
 
 	push	1

@@ -39,9 +39,3 @@ const char* ASM_EXT = "asm";
  * Assembly file extension's string length.
  */
 const size_t ASM_EXT_SIZE = 3;
-
-/*!
- * Width of screen where video buffer will be printed.
- */
-const addr_t VIDEO_WIDTH = 16;
-

@@ -117,7 +117,6 @@ extern const char*       EXEC_EXT;
 extern const char*       ASM_EXT;
 extern const size_t      EXEC_EXT_SIZE;
 extern const size_t      ASM_EXT_SIZE;
-extern const addr_t      VIDEO_WIDTH;
 
 /*!
  * The number of registers.
@@ -133,14 +132,24 @@ extern const addr_t      VIDEO_WIDTH;
 #define MAX_TOKEN_SIZE (size_t) 64
 
 /*!
- * Size of processor memory.
+ * Width of screen.
  */
-#define MEMORY_SIZE (addr_t) 1024
+#define VIDEO_WIDTH  (addr_t) 256
 
+/*!
+ * Height of screen.
+ */
+#define VIDEO_HEIGHT (addr_t) 256
 /*!
  * Size of video memory.
  */
-#define VIDEO_MEM_SIZE (addr_t) 256
+#define VIDEO_MEM_SIZE (addr_t) (VIDEO_WIDTH * VIDEO_HEIGHT)
+
+/*!
+ * Size of processor memory.
+ */
+#define MEMORY_SIZE (addr_t) (VIDEO_MEM_SIZE * 2)
+
 
 
 
